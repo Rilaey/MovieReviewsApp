@@ -1,30 +1,28 @@
 ﻿<div>
-    <form class="d-flex justify-content-center align-items-center" onsubmit="searchMovie(event)">
-        <input id="search" type="text" placeholder="Search a Movie" />
+    <form class="d-flex justify-content-center" onsubmit="searchMovie(event)">
+        <input id="search" type="text" class="mx-2" placeholder="Search a Movie" />
         <button class="btn btn-primary" type="submit">Search</button>
     </form>
 </div>
 
-<div class="card" style="width: 18rem;">
-    <img id="movie-image" src="" class="card-img-top" alt="movie-logo">
-    <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    </div>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item">An item</li>
-        <li class="list-group-item">A second item</li>
-        <li class="list-group-item">A third item</li>
-    </ul>
-    <div class="card-body">
-        <a href="#" class="card-link">Card link</a>
-        <a href="#" class="card-link">Another link</a>
-    </div>
-</div>
+        <div class="card mx-auto my-5 d-none card-info" style="width: 18rem;">
+            <img id="movie-image" src="" class="card-img-top" alt="movie-logo">
+            <div class="card-body">
+                <h5 class="card-title text-light" id="movie-title"></h5>
+                <p class="card-text text-light" id="movie-plot"></p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Release Date: <span id="movie-release"></span></li>
+                <li class="list-group-item">Box Office: <span id="movie-money"></span></li>
+                <li class="list-group-item">Actors: <span id="movie-actors"></span></li>
+            </ul>
+        </div>
 
 @section Scripts {
     <script>
         const searchEl = document.getElementById("search");
+        const cardInfo = document.querySelector(".card-info"); // Select the card-info element outside of the function
+
 
         const searchMovie = function (e) {
             e.preventDefault();
@@ -34,7 +32,14 @@
                 method: "GET",
                 dataType: "JSON",
                 success: function (success) {
+                    cardInfo.classList.remove("d-none"); // Remove the "d-none" class
+
                     document.getElementById("movie-image").src = success.Poster;
+                    document.getElementById("movie-title").textContent = success.Title;
+                    document.getElementById("movie-plot").textContent = success.Plot;
+                    document.getElementById("movie-release").textContent = success.Released;
+                    document.getElementById("movie-money").textContent = success.BoxOffice;
+                    document.getElementById("movie-actors").textContent = success.Actors;
 
                     console.log(success);
                 },

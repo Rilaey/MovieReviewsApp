@@ -1,0 +1,46 @@
+﻿<div>
+    <form class="d-flex justify-content-center align-items-center" onsubmit="searchMovie(event)">
+        <input id="search" type="text" placeholder="Search a Movie" />
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+</div>
+
+<div class="card" style="width: 18rem;">
+    <img id="movie-image" src="" class="card-img-top" alt="movie-logo">
+    <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">An item</li>
+        <li class="list-group-item">A second item</li>
+        <li class="list-group-item">A third item</li>
+    </ul>
+    <div class="card-body">
+        <a href="#" class="card-link">Card link</a>
+        <a href="#" class="card-link">Another link</a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const searchEl = document.getElementById("search");
+
+        const searchMovie = function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: `https://www.omdbapi.com/?t=${searchEl.value}&apikey=7ece52d8`,
+                method: "GET",
+                dataType: "JSON",
+                success: function (success) {
+                    document.getElementById("movie-image").src = success.Poster;
+
+                    console.log(success);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }</script>
+}
